@@ -5,22 +5,42 @@ from django.db import models
 class Teacher(models.Model):
     first_name = models.CharField(max_length=255, null=False)
     last_name = models.CharField(max_length=255, null=False)
-    mail = models.EmailField(max_length=255, null=False)
+    mail = models.EmailField(max_length=255, null=False, unique=True)
 
     def __str__(self) -> str:
         return self.first_name + " " + self.last_name
     
 
 class Class(models.Model):
-    year = models.CharField(max_length=5, null=False)
-    letter = models.CharField(max_length=1, null=False)
+
+    class YearChoices(models.IntegerChoices):
+        I = 1, "I"
+        II = 2, "II"
+        III = 3, "III"
+        IV = 4, "IV"
+        V = 5, "V"
+        VI = 6, "VI"
+        VII = 7, "VII"
+        VIII = 8, "VIII"
+        IX = 9, "IX"
+        X = 10, "X"
+        XI = 11, "XI"
+        XII = 12, "XII"
+    year = models.IntegerField(choices=YearChoices.choices, verbose_name="YearChoices", null=False, default=1)
+
+    letter = models.CharField(max_length=1, null=False) 
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=['year', 'letter'], name='unique_classroom_name')]
+
 
     def __str__(self) -> str:
-        return self.year + "-" + self.letter
+        class_name = f"{self.YearChoices(self.year).label}-{self.letter}"
+        return class_name
     
 
 class Subject(models.Model):
-    subject_name = models.CharField(max_length=50, null=False)
+    subject_name = models.CharField(max_length=50, null=False, unique=True)
 
     def __str__(self) -> str:
         return self.subject_name
@@ -40,6 +60,12 @@ class ClassAsignment(models.Model):
     subject_id = models.ForeignKey(Subject, on_delete=models.DO_NOTHING)
     teacher_id = models.ForeignKey(Teacher, on_delete=models.DO_NOTHING)
 
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=['class_id', 'subject_id'], name='unique_classroom_subject')]
+
+    def __str__(self) -> str:
+        return f"{self.teacher_id.last_name} is teaching {self.subject_id.subject_name} at class {self.class_id}."
+
 
 class Timetable(models.Model):
 
@@ -52,20 +78,31 @@ class Timetable(models.Model):
     day = models.IntegerField(choices=DaysChoices.choices, verbose_name="DaysChoices",)
 
     class HoursChoices(models.IntegerChoices):
-        FIRST = 1, "12:30 - 13:20"
-        SECOND = 2, "13:30 - 14:20"
-        THIRD = 3, "14:30 - 15:20"
-        FOURTH = 4, "15:30 - 16:20"
-        FIFTH = 5, "16:30 - 17:20"
-        SIXTH = 6, "17:30 - 18:20"
-        SEVENTH = 7, "18:30 - 19:20"
+        FIRST = 1, "07:30 - 08:20"
+        SECOND = 2, "08:30 - 09:20"
+        THIRD = 3, "09:30 - 10:20"
+        FOURTH = 4, "10:30 - 11:20"
+        FIFTH = 5, "11:30 - 12:20"
+        SIXTH = 6, "12:30 - 13:20"
+        SEVENTH = 7, "13:30 - 14:20"
+        EIGTH = 8, "14:30 - 15:20"
+        NINTH = 9, "15:30 - 16:20"
+        TENTH = 10, "16:30 - 17:20"
+        ELEVENTH = 11, "17:30 - 18:20"
+        TWELVTH = 12, "18:30 - 19:20"
+
     hour = models.IntegerField(choices=HoursChoices.choices, verbose_name="HoursChoices",)
     
     class_id = models.ForeignKey(Class, on_delete=models.DO_NOTHING)
     subject_id = models.ForeignKey(Subject, on_delete=models.DO_NOTHING)
 
+    class Meta:
+        # Adding constraints because a classroom can have only one subject assigned for a certain day/hour combination. (Eg. Classroom XII-A can only have Chemestry at 12:30 on a Monday. It is impossible for XII-A to have Math at the same time.)
+        constraints = [models.UniqueConstraint(fields=['day', 'hour', 'class_id'], name='unique_classroom_assignment')]
+
     def __str__(self) -> str:
         return f"{self.DaysChoices(self.day).label} | {self.HoursChoices(self.hour).label}"
+    
     
 
 class Grade(models.Model):
