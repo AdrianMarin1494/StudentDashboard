@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
-from .models import Teacher
-from .serializers import TeacherSerializer
+from .models import Teacher, Classroom
+from .serializers import TeacherSerializer, ClassroomSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -12,7 +12,6 @@ from rest_framework import status
 
 # Define the API Methods supported.
 @api_view(['GET', 'POST'])
-
 def teachers(request):
     if request.method == "GET":
         # Get all teachers
@@ -27,6 +26,7 @@ def teachers(request):
     elif request.method == "POST":
         # Receive request data and save it.
         serializer_object = TeacherSerializer(data=request.data)
+
         if serializer_object.is_valid():
             serializer_object.save()
             return Response(serializer_object.data, status=status.HTTP_201_CREATED)
@@ -55,4 +55,41 @@ def teacher_info(request, id):
     
     elif request.method == "DELETE":
         teacher_info.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+
+@api_view(['GET', 'POST'])
+def classrooms(request):
+    if request.method == "GET":
+        classroom_list = Classroom.objects.all()
+        serializer_object = ClassroomSerializer(classroom_list, many=True)
+        return Response(serializer_object.data)
+    
+    elif request.method == "POST":
+        serializer_object = ClassroomSerializer(data=request.data)
+        if serializer_object.is_valid():
+            serializer_object.save()
+            return Response(serializer_object.data, status=status.HTTP_201_CREATED)
+        
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def classroom_info(request, id):
+    try:
+        classroom_info = Classroom.objects.get(pk=id)
+    except Classroom.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    if request.method == "GET":
+        serializer_object = ClassroomSerializer(classroom_info)
+        return Response(serializer_object.data)
+    
+    elif request.method == "PUT":
+        serializer_object = ClassroomSerializer(classroom_info, data=request.data)
+        if serializer_object.is_valid():
+            serializer_object.save()
+            return Response(serializer_object.data, status=status.HTTP_202_ACCEPTED)
+        return Response(serializer_object.data, status=status.HTTP_404_NOT_FOUND)
+    
+    elif request.method == "DELETE":
+        classroom_info.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

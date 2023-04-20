@@ -11,7 +11,7 @@ class Teacher(models.Model):
         return self.first_name + " " + self.last_name
     
 
-class Class(models.Model):
+class Classroom(models.Model):
 
     class YearChoices(models.IntegerChoices):
         I = 1, "I"
@@ -49,14 +49,14 @@ class Subject(models.Model):
 class Student(models.Model):
     first_name = models.CharField(max_length=255, null=False)
     last_name = models.CharField(max_length=255, null=False)
-    class_id = models.ForeignKey(Class, on_delete=models.DO_NOTHING)
+    class_id = models.ForeignKey(Classroom, on_delete=models.DO_NOTHING)
 
     def __str__(self) -> str:
         return f"{self.first_name} {self.last_name}"
     
 
 class ClassAsignment(models.Model):
-    class_id = models.ForeignKey(Class, on_delete=models.DO_NOTHING)
+    class_id = models.ForeignKey(Classroom, on_delete=models.DO_NOTHING)
     subject_id = models.ForeignKey(Subject, on_delete=models.DO_NOTHING)
     teacher_id = models.ForeignKey(Teacher, on_delete=models.DO_NOTHING)
 
@@ -93,7 +93,7 @@ class Timetable(models.Model):
 
     hour = models.IntegerField(choices=HoursChoices.choices, verbose_name="HoursChoices",)
     
-    class_id = models.ForeignKey(Class, on_delete=models.DO_NOTHING)
+    class_id = models.ForeignKey(Classroom, on_delete=models.DO_NOTHING)
     subject_id = models.ForeignKey(Subject, on_delete=models.DO_NOTHING)
 
     class Meta:
@@ -106,7 +106,7 @@ class Timetable(models.Model):
     
 
 class Grade(models.Model):
-    class_id = models.ForeignKey(Class, on_delete=models.DO_NOTHING)
+    class_id = models.ForeignKey(Classroom, on_delete=models.DO_NOTHING)
     subject_id = models.ForeignKey(Subject, on_delete=models.DO_NOTHING)
     student_id = models.ForeignKey(Student, on_delete=models.DO_NOTHING)
 
