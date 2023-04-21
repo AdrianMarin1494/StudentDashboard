@@ -26,10 +26,10 @@ class Classroom(models.Model):
         X = 10, "X"
         XI = 11, "XI"
         XII = 12, "XII"
-    year = models.IntegerField(choices=YearChoices.choices, verbose_name="YearChoices", null=False, default=1)
+    year = models.IntegerField(choices=YearChoices.choices, verbose_name="Study Year", null=False, default=1)
 
     letter = models.CharField(max_length=1, null=False) 
-
+    
     class Meta:
         constraints = [models.UniqueConstraint(fields=['year', 'letter'], name='unique_classroom_name')]
 
@@ -75,7 +75,7 @@ class Timetable(models.Model):
         MIERCURI = 3, "Miercuri"
         JOI = 4, "Joi"
         VINERI = 5, "Vineri"
-    day = models.IntegerField(choices=DaysChoices.choices, verbose_name="DaysChoices",)
+    day = models.IntegerField(choices=DaysChoices.choices, verbose_name="Day",)
 
     class HoursChoices(models.IntegerChoices):
         FIRST = 1, "07:30 - 08:20"

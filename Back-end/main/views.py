@@ -1,11 +1,10 @@
-from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
-from django.template import loader
-from .models import Teacher, Classroom
-from .serializers import TeacherSerializer, ClassroomSerializer
+from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from .models import Teacher, Classroom, Subject
+from .serializers import TeacherSerializer, ClassroomSerializer, SubjectSerializer
+
 
 # Create your views here.
 
@@ -21,7 +20,7 @@ def teachers(request):
         serializer_object = TeacherSerializer(teachers_list, many=True)
 
         # Return Json Response
-        return JsonResponse({"teachers": serializer_object.data})
+        return Response(serializer_object.data)
     
     elif request.method == "POST":
         # Receive request data and save it.
@@ -93,3 +92,24 @@ def classroom_info(request, id):
     elif request.method == "DELETE":
         classroom_info.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+
+@api_view(["GET", "POST"])
+def subject(request):
+    if request.method == "GET":
+        subject_list = Subject.objects.all()
+        serializer_object = SubjectSerializer(subject_list, many=True)
+        return Response(serializer_object.data)
+    
+    elif request.method == "POST":
+        serializer_object = SubjectSerializer(data=request.data)
+        if serializer_object.is_valid():
+            serializer_object.save()
+            return Response(serializer_object.data, status=status.HTTP_201_CREATED)
+
+    
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def subject_info(request, id):
+    pass
