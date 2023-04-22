@@ -1,0 +1,19 @@
+.week-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #333d51;
+}
+
+.week-days {
+  list-style: none;
+  font-size: 1.5rem;
+  padding-left: 0;
+  margin: 0;
+}
+
+.week-days li {
+  padding: 0.2vw;
+  cursor: pointer;
+}
