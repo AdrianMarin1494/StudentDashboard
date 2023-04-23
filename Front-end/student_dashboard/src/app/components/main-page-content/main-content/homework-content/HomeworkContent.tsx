@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 
 import styles from "./HomeworkContent.module.css";
+
+import HomeworkDetails from "./HomeworkDetails";
 
 const DUMMY_HOMEWORKS = {
   Math: ["First Math homework", "Second Math homework", "Third Math homework"],
@@ -32,17 +34,35 @@ const DUMMY_HOMEWORKS = {
 };
 
 const HomeworkContent = ({ selectedClassHomework }) => {
-  //   const homeworkClassList = DUMMY_HOMEWORKS[props.selectedClass];
+  const [selectedHomework, setSelectedHomework] = useState("");
+
+  const handlesSelectHomework = (event) => {
+    setSelectedHomework(event.target.textContent);
+    console.log(event.target.textContent);
+  };
   const homeworkClassList = DUMMY_HOMEWORKS[selectedClassHomework];
   const homeworkClass = homeworkClassList.map((theClass) => (
-    <li key={theClass}>{theClass}</li>
+    <li key={theClass} onClick={handlesSelectHomework}>
+      {theClass}
+    </li>
   ));
+
+  const handleCloseModal = () => {
+    setSelectedHomework("");
+  };
+
   return (
-    <div className={styles["homework-content"]}>
-      {/* <h2>{props.currentDay}'s classes</h2> */}
-      <h2>{selectedClassHomework} homeworks</h2>
-      <ul className={styles["homework-list"]}>{homeworkClass}</ul>
-    </div>
+    <>
+      <div className={styles["homework-content"]}>
+        <h2>{selectedClassHomework} homeworks</h2>
+        <ul className={styles["homework-list"]}>{homeworkClass}</ul>
+      </div>
+      <HomeworkDetails
+        selectedClassName={selectedClassHomework}
+        selectedHomeworkName={selectedHomework}
+        onCloseModal={handleCloseModal}
+      />
+    </>
   );
 };
 
