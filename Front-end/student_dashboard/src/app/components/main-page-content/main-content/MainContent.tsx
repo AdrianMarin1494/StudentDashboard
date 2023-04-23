@@ -3,18 +3,34 @@
 import React from "react";
 
 import styles from "./MainContext.module.css";
+import LaptopImage from "../../../styles/images/laptop.avif";
 
-const MainContext = () => {
+import HomeworkContent from "./homework-content/HomeworkContent";
+import ProjectsContent from "./projects-content/ProjectsContent";
+import FinalsContent from "./finals-content/FinalsContent";
+
+const MainContext = ({ currentClass }) => {
+  if (!currentClass) {
+    return (
+      <div>
+        <img
+          // className={styles["nocontent-image"]}
+          style={{ width: "100%", height: "97.5vh", "border-radius": "1vw" }}
+          src={LaptopImage.src}
+        />
+      </div>
+    );
+  }
   return (
     <div className={styles["main-content"]}>
       <div className={styles["homework"]}>
-        <h3>Test1</h3>
+        <HomeworkContent selectedClassHomework={currentClass} />
       </div>
       <div className={styles["projects"]}>
-        <h3>Test2</h3>
+        <ProjectsContent selectedClassProjects={currentClass} />
       </div>
       <div className={styles["finals"]}>
-        <h3>Test3</h3>
+        <FinalsContent selectedClassFinals={currentClass} />
       </div>
       <div className={styles["teachernotes"]}>
         <h3>Test4</h3>

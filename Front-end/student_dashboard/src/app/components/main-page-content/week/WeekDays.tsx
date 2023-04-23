@@ -12,9 +12,9 @@ const WEEKDAYS: string[] = [
   "Friday",
 ];
 
-const WeekDays = ({ onSelectDayHandler }) => {
+const WeekDays = ({ onSelectDay }) => {
   const selectDay = (item) => {
-    onSelectDayHandler(item.target.textContent);
+    onSelectDay(item.target.textContent);
     console.log(item.target.textContent);
   };
 

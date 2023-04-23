@@ -12,9 +12,23 @@ const DUMMY_CLASSES = {
 };
 
 const TodayClasses = (props: any) => {
+  if (!props.currentDay) {
+    return (
+      <div className={styles["classes-content"]}>
+        <h2>No day selected</h2>
+      </div>
+    );
+  }
+
+  const selectClass = (event) => {
+    props.onSelectClass(event.target.textContent);
+  };
+
   const todayClassesList = DUMMY_CLASSES[props.currentDay];
   const todayClasses = todayClassesList.map((theClass) => (
-    <li key={theClass}>{theClass}</li>
+    <li key={theClass} onClick={selectClass}>
+      {theClass}
+    </li>
   ));
   return (
     <div className={styles["classes-content"]}>
