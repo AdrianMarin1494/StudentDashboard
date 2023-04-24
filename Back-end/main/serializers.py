@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Teacher, Classroom, Subject, Student, ClassAsignment, Timetable, Grade
+from .models import Teacher, Classroom, Subject, Student, ClassAssignment, Timetable, Grade
 
 class TeacherSerializer(serializers.ModelSerializer):
     class Meta:
@@ -33,6 +33,30 @@ class SubjectSerializer(serializers.ModelSerializer):
 
 
 class StudentSerializer(serializers.ModelSerializer):
+    student_classroom = serializers.SerializerMethodField()
+
     class Meta:
         model = Student
-        fields = ['id', 'first_name', 'last_name', 'class_id']
+        fields = ['id', 'first_name', 'last_name', 'class_id', 'student_classroom']
+
+    def get_student_classroom(self, obj):
+        return f"{obj.class_id.YearChoices(obj.class_id.year).label}-{obj.class_id.letter}"
+
+
+class ClassAssignmentSerializer(serializers.ModelSerializer):
+    classroom = serializers.SerializerMethodField()
+    subject = serializers.SerializerMethodField()
+    teacher = serializers.SerializerMethodField()    
+
+    class Meta:
+        model = ClassAssignment
+        fields = ['id', 'class_id', 'classroom', 'subject_id', 'subject', 'teacher_id', 'teacher']
+
+    def get_classroom(self, obj):
+        return f"{obj.class_id.YearChoices(obj.class_id.year).label}-{obj.class_id.letter}"
+    
+    def get_subject(self, obj):
+        return f"{obj.subject_id.subject_name}"
+    
+    def get_teacher(self, obj):
+        return f"{obj.teacher_id.first_name} {obj.teacher_id.last_name}"

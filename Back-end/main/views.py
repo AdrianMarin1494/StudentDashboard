@@ -2,8 +2,8 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Teacher, Classroom, Subject
-from .serializers import TeacherSerializer, ClassroomSerializer, SubjectSerializer
+from .models import Teacher, Classroom, Subject, Student, ClassAssignment
+from .serializers import TeacherSerializer, ClassroomSerializer, SubjectSerializer, StudentSerializer, ClassAssignmentSerializer
 
 
 # Create your views here.
@@ -107,9 +107,99 @@ def subject(request):
             serializer_object.save()
             return Response(serializer_object.data, status=status.HTTP_201_CREATED)
 
-    
-
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def subject_info(request, id):
-    pass
+    try:
+        subject_info = Subject.objects.get(pk=id)
+    except Subject.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    if request.method == "GET":
+        serializer_object = SubjectSerializer(subject_info)
+        return Response(serializer_object.data)
+    
+    elif request.method == "PUT":
+        serializer_object = SubjectSerializer(subject_info, data=request.data)
+        if serializer_object.is_valid():
+            serializer_object.save()
+            return Response(status=status.HTTP_202_ACCEPTED)
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    elif request.method == "DELETE":
+        subject_info.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+
+@api_view(['GET', 'POST'])
+def student(request):
+    if request.method == "GET":
+        student_list = Student.objects.all()
+        serializer_object = StudentSerializer(student_list, many=True)
+        return Response(serializer_object.data)
+    
+    elif request.method == "POST":
+        serializer_object = StudentSerializer(data=request.data)
+        if serializer_object.is_valid():
+            serializer_object.save()
+            return Response(serializer_object.data, status=status.HTTP_201_CREATED)
+        
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def student_info(request, id):
+    try:
+        student_info = Student.objects.get(pk=id)
+    except Student.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    if request.method == "GET":
+        serializer_object = StudentSerializer(student_info)
+        return Response(serializer_object.data)
+    
+    elif request.method == "PUT":
+        serializer_object = StudentSerializer(student_info, data=request.data)
+        if serializer_object.is_valid():
+            serializer_object.save()
+            return Response(status=status.HTTP_202_ACCEPTED)
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    elif request.method == "DELETE":
+        student_info.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+
+@api_view(['GET', 'POST'])
+def class_assignment(request):
+    if request.method == "GET":
+        class_assignment_list = ClassAssignment.objects.all()
+        serializer_object = ClassAssignmentSerializer(class_assignment_list, many=True)
+        return Response(serializer_object.data)
+    
+    elif request.method == "POST":
+        serializer_object = ClassAssignmentSerializer(data=request.data)
+        if serializer_object.is_valid():
+            serializer_object.save()
+            return Response(serializer_object.data, status=status.HTTP_201_CREATED)
+        
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def class_assignment_info(request, id):
+    try:
+        class_assignment_info = ClassAssignment.objects.get(pk=id)
+    except ClassAssignment.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    if request.method == "GET":
+        serializer_object = ClassAssignmentSerializer(class_assignment_info)
+        return Response(serializer_object.data)
+    
+    elif request.method == "PUT":
+        serializer_object = ClassAssignmentSerializer(class_assignment_info, data=request.data)
+        if serializer_object.is_valid():
+            serializer_object.save()
+            return Response(status=status.HTTP_202_ACCEPTED)
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    elif request.method == "DELETE":
+        class_assignment_info.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

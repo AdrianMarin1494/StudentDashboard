@@ -55,7 +55,7 @@ class Student(models.Model):
         return f"{self.first_name} {self.last_name}"
     
 
-class ClassAsignment(models.Model):
+class ClassAssignment(models.Model):
     class_id = models.ForeignKey(Classroom, on_delete=models.DO_NOTHING)
     subject_id = models.ForeignKey(Subject, on_delete=models.DO_NOTHING)
     teacher_id = models.ForeignKey(Teacher, on_delete=models.DO_NOTHING)
