@@ -10,7 +10,6 @@ class TeacherSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-
 class ClassroomSerializer(serializers.ModelSerializer):
     # To create a new field you need to name it <given_name>, define a function with "get_<given_name> and add it to fields list."
     # Documentation: https://www.django-rest-framework.org/api-guide/serializers/#modelserializer
@@ -60,3 +59,45 @@ class ClassAssignmentSerializer(serializers.ModelSerializer):
     
     def get_teacher(self, obj):
         return f"{obj.teacher_id.first_name} {obj.teacher_id.last_name}"
+    
+
+class TimetableSerializer(serializers.ModelSerializer):
+    classroom = serializers.SerializerMethodField()
+    subject = serializers.SerializerMethodField()
+    day_name = serializers.SerializerMethodField()
+    hour_time = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Timetable
+        fields = ['id', 'day', 'day_name', 'hour', 'hour_time', 'class_id', 'classroom', 'subject_id', 'subject']
+
+    def get_classroom(self, obj):
+        return f"{obj.class_id.YearChoices(obj.class_id.year).label}-{obj.class_id.letter}"
+    
+    def get_subject(self, obj):
+        return f"{obj.subject_id.subject_name}"
+
+    def get_day_name(self, obj):
+        return f"{obj.DaysChoices(obj.day).label}"
+
+    def get_hour_time(self, obj):
+        return f"{obj.HoursChoices(obj.hour).label}"
+    
+
+class GradeSerializer(serializers.ModelSerializer):
+    classroom = serializers.SerializerMethodField()
+    subject = serializers.SerializerMethodField()
+    student = serializers.SerializerMethodField()    
+
+    class Meta:
+        model = Grade
+        fields = ['id', 'class_id', 'classroom', 'subject_id', 'subject', 'student_id', 'student', 'grade']
+
+    def get_classroom(self, obj):
+        return f"{obj.class_id.YearChoices(obj.class_id.year).label}-{obj.class_id.letter}"
+    
+    def get_subject(self, obj):
+        return f"{obj.subject_id.subject_name}"
+
+    def get_student(self, obj):
+        return f"{obj.student_id.first_name} {obj.student_id.last_name}"

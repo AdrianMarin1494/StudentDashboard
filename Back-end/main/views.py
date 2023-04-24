@@ -2,8 +2,8 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Teacher, Classroom, Subject, Student, ClassAssignment
-from .serializers import TeacherSerializer, ClassroomSerializer, SubjectSerializer, StudentSerializer, ClassAssignmentSerializer
+from .models import Teacher, Classroom, Subject, Student, ClassAssignment, Timetable, Grade
+from .serializers import TeacherSerializer, ClassroomSerializer, SubjectSerializer, StudentSerializer, ClassAssignmentSerializer, TimetableSerializer, GradeSerializer
 
 
 # Create your views here.
@@ -202,4 +202,78 @@ def class_assignment_info(request, id):
     
     elif request.method == "DELETE":
         class_assignment_info.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+
+@api_view(['GET', 'POST'])
+def timetable(request):
+    if request.method == "GET":
+        timetable_list = Timetable.objects.all()
+        serializer_object = TimetableSerializer(timetable_list, many=True)
+        return Response(serializer_object.data)
+    
+    elif request.method == "POST":
+        serializer_object = TimetableSerializer(data=request.data)
+        if serializer_object.is_valid():
+            serializer_object.save()
+            return Response(serializer_object.data, status=status.HTTP_201_CREATED)
+        
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def timetable_info(request, id):
+    try:
+        timetable_info = Timetable.objects.get(pk=id)
+    except Timetable.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    if request.method == "GET":
+        serializer_object = TimetableSerializer(timetable_info)
+        return Response(serializer_object.data)
+    
+    elif request.method == "PUT":
+        serializer_object = TimetableSerializer(timetable_info, data=request.data)
+        if serializer_object.is_valid():
+            serializer_object.save()
+            return Response(status=status.HTTP_202_ACCEPTED)
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    elif request.method == "DELETE":
+        timetable_info.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+
+@api_view(['GET', 'POST'])
+def grade(request):
+    if request.method == "GET":
+        grade_list = Grade.objects.all()
+        serializer_object = GradeSerializer(grade_list, many=True)
+        return Response(serializer_object.data)
+    
+    elif request.method == "POST":
+        serializer_object = GradeSerializer(data=request.data)
+        if serializer_object.is_valid():
+            serializer_object.save()
+            return Response(serializer_object.data, status=status.HTTP_201_CREATED)
+        
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def grade_info(request, id):
+    try:
+        grade_info = Grade.objects.get(pk=id)
+    except Grade.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    if request.method == "GET":
+        serializer_object = GradeSerializer(grade_info)
+        return Response(serializer_object.data)
+    
+    elif request.method == "PUT":
+        serializer_object = GradeSerializer(grade_info, data=request.data)
+        if serializer_object.is_valid():
+            serializer_object.save()
+            return Response(status=status.HTTP_202_ACCEPTED)
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    elif request.method == "DELETE":
+        grade_info.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

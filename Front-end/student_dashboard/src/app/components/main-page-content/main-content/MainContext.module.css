@@ -1,0 +1,97 @@
+.homework {
+  grid-area: homework;
+  width: 100%;
+  height: 100%;
+  background-color: #cbd0d8;
+  border-radius: 0.75vw;
+}
+
+.projects {
+  grid-area: projects;
+  width: 100%;
+  height: 100%;
+  background-color: #cbd0d8;
+  border-radius: 0.75vw;
+}
+
+.finals {
+  grid-area: finals;
+  width: 100%;
+  height: 100%;
+  background-color: #cbd0d8;
+  border-radius: 0.75vw;
+}
+
+.teachernotes {
+  grid-area: teachernotes;
+  width: 100%;
+  height: 100%;
+  background-color: #cbd0d8;
+  border-radius: 0.75vw;
+}
+
+.downloaddocuments {
+  grid-area: downloaddocuments;
+  width: 100%;
+  height: 100%;
+  background-color: #cbd0d8;
+  border-radius: 0.75vw;
+}
+
+.classesdates {
+  grid-area: classesdates;
+  width: 100%;
+  height: 100%;
+  background-color: #cbd0d8;
+  border-radius: 0.75vw;
+}
+
+.writetoteacher {
+  grid-area: writetoteacher;
+  width: 100%;
+  height: 100%;
+  background-color: #cbd0d8;
+  border-radius: 0.75vw;
+}
+
+.uploaddocuments {
+  grid-area: uploaddocuments;
+  width: 100%;
+  height: 100%;
+  background-color: #cbd0d8;
+  border-radius: 0.75vw;
+}
+
+.attendence {
+  grid-area: attendence;
+  width: 100%;
+  height: 100%;
+  background-color: #cbd0d8;
+  border-radius: 0.75vw;
+}
+
+.grades {
+  grid-area: grades;
+  width: 100%;
+  height: 100%;
+  background-color: #cbd0d8;
+  border-radius: 0.75vw;
+}
+
+.main-content {
+  width: 100%;
+  height: 100%;
+  gap: 0.25vw;
+  margin: 0;
+  display: grid;
+  grid-template-areas:
+    "homework homework homework teachernotes writetoteacher"
+    "projects projects projects downloaddocuments uploaddocuments"
+    "finals finals finals classesdates attendence"
+    "finals finals finals classesdates attendence"
+    "finals finals finals classesdates grades";
+  grid-template-columns: 14vw;
+  grid-template-rows: 33vh;
+  border-radius: 0.25vw;
+  background-color: #f4eaed;
+}
