@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import styles from "./HomeworkDetails.module.css";
 
@@ -10,18 +10,12 @@ const HOMEWORK_DETAILS = {
   },
 };
 
-const HomeworkContent = ({
+const HomeworkDetails = ({
   selectedClassName,
   selectedHomeworkName,
   onCloseModal,
 }) => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    setIsVisible(selectedClassName && selectedHomeworkName);
-  }, [selectedClassName, selectedHomeworkName, setIsVisible]);
-
-  if (!isVisible) {
+  if (!selectedClassName || !selectedHomeworkName) {
     return;
   }
 
@@ -51,4 +45,4 @@ const HomeworkContent = ({
   );
 };
 
-export default HomeworkContent;
+export default HomeworkDetails;
