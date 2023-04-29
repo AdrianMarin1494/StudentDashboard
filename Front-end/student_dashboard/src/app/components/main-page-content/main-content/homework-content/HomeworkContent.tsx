@@ -40,6 +40,7 @@ const HomeworkContent = ({ selectedClassHomework }) => {
     setSelectedHomework(event.target.textContent);
     console.log(event.target.textContent);
   };
+
   const homeworkClassList = DUMMY_HOMEWORKS[selectedClassHomework];
   const homeworkClass = homeworkClassList.map((theClass) => (
     <li key={theClass} onClick={handlesSelectHomework}>
