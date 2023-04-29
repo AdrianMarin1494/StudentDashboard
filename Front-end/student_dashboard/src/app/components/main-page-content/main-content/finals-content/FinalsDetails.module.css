@@ -1,4 +1,4 @@
-.projectdetails-content {
+.finalsdetails-content {
   width: 40%;
   height: 40vh;
   background-color: #f6c026;
@@ -10,7 +10,7 @@
   justify-content: center;
   align-items: center;
   border-radius: 2vw;
-  margin: 0% 10%;
+  margin: -30% 10%;
 }
 
 .comments-area textarea {

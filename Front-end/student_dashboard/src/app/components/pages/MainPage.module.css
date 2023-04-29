@@ -2,7 +2,7 @@
   grid-area: menu;
   width: 100%;
   height: 100%;
-  background-color: #cbd0d8;
+  background-color: #a0d3f9;
   border-radius: 0.75vw;
 }
 
@@ -10,7 +10,7 @@
   grid-area: left;
   width: 100%;
   height: 100%;
-  background-color: #cbd0d8;
+  background-color: #a0d3f9;
   border-radius: 0.75vw;
 }
 
@@ -18,7 +18,7 @@
   grid-area: main;
   width: 100%;
   height: 100%;
-  background-color: #cbd0d8;
+  background-color: #a0d3f9;
   border-radius: 0.75vw;
 }
 
