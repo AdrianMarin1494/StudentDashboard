@@ -11,6 +11,7 @@
   align-items: center;
   border-radius: 2vw;
   margin: -30% 10%;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .comments-area textarea {
