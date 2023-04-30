@@ -17,6 +17,8 @@
 .comments-area textarea {
   width: 20vw;
   height: 7.5vh;
+  resize: none;
+  background-color: #eae2b7;
 }
 
 .actions button {
@@ -26,4 +28,6 @@
   color: #f77f00;
   border-radius: 1vw;
   margin: 1vw;
+  background-color: #eae2b7;
+  cursor: pointer;
 }
