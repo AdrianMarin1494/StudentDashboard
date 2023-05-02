@@ -4,6 +4,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Teacher, Classroom, Subject, Student, ClassAssignment, Timetable, Grade
 from .serializers import TeacherSerializer, ClassroomSerializer, SubjectSerializer, StudentSerializer, ClassAssignmentSerializer, TimetableSerializer, GradeSerializer
+from rest_framework import generics, mixins
+from rest_framework.views import APIView
 
 
 # Create your views here.
@@ -56,6 +58,34 @@ def teacher_info(request, id):
         teacher_info.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
+
+class TeachersList(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin):
+    # Get all teachers
+    queryset = Teacher.objects.all()
+    
+    # Serialize them
+    serializer_class = TeacherSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+
+class TeacherDetails(generics.GenericAPIView, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
+    queryset = Teacher.objects.all()
+    serializer_class = TeacherSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
 
 @api_view(['GET', 'POST'])
 def classrooms(request):
