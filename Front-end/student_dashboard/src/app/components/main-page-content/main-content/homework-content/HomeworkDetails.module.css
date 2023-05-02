@@ -1,8 +1,8 @@
 .homeworkdetails-content {
   width: 40%;
   height: 40vh;
-  background-color: #d3ac2b;
-  color: #333d51;
+  background-color: #fcbf49;
+  color: #003049;
   position: absolute;
   z-index: 50;
   display: flex;
@@ -11,18 +11,22 @@
   align-items: center;
   border-radius: 2vw;
   margin: 0% 10%;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .comments-area textarea {
   width: 20vw;
   height: 7.5vh;
+  resize: none;
+  background-color: #eae2b7;
 }
 
 .actions button {
   width: 10vw;
   height: 3vh;
-  background-color: #f4f3ea;
-  color: #333d51;
+  background-color: #eae2b7;
+  color: #f77f00;
   border-radius: 1vw;
   margin: 1vw;
+  cursor: pointer;
 }

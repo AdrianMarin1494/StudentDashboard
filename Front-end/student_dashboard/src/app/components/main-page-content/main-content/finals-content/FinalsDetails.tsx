@@ -1,37 +1,36 @@
 "use client"; // this is a clienct component
 import React from "react";
 
-import styles from "./ProjectDetails.module.css";
+import styles from "./FinalsDetails.module.css";
 
-const PROJECTS_DETAILS = {
+const FINALS_DETAILS = {
   Math: {
-    "First Math project": "Complete the first project",
-    "Second Math project": "Complete the second project",
-    "Third Math project": "Complete the third project",
+    "First Math final": "Complete the first final",
+    "Second Math final": "Complete the second final",
+    "Third Math final": "Complete the third final",
   },
 };
 
-const ProjectDetails = ({
+const FinalDetails = ({
   selectedClassName,
-  selectedProjectName,
+  selectedFinalName,
   onCloseModal,
 }) => {
-  if (!selectedClassName || !selectedProjectName) {
+  if (!selectedClassName || !selectedFinalName) {
     return;
   }
 
-  const projectDetails =
-    PROJECTS_DETAILS[selectedClassName][selectedProjectName];
+  const projectDetails = FINALS_DETAILS[selectedClassName][selectedFinalName];
 
   const closeModal = () => {
     onCloseModal();
   };
 
   return (
-    <div className={styles["projectdetails-content"]}>
+    <div className={styles["finalsdetails-content"]}>
       <div>
         <h3>{selectedClassName}</h3>
-        <h3>{selectedProjectName}</h3>
+        <h3>{selectedFinalName}</h3>
         <p>{projectDetails}</p>
       </div>
       <div className={styles["comments-area"]}>
@@ -46,4 +45,4 @@ const ProjectDetails = ({
   );
 };
 
-export default ProjectDetails;
+export default FinalDetails;
